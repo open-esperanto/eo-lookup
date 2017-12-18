@@ -2,7 +2,7 @@
 
 root=$(dirname ${0})
 default="${root}/default.nix"
-twine=$(nix-build -A pkgs.twine --no-out-link ${default})
+twine=$(nix-build -A pkgs.python3Packages.twine --no-out-link ${default})
 pythonDist=$(nix-build -A pythonDist --no-out-link ${default})
 
 printf "PyPI username: "

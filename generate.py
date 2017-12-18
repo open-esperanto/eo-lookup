@@ -1,7 +1,7 @@
 import os
 import sqlite3
 
-VERSION = '1.0'
+VERSION = '1.0.1'
 
 DB_PATH = os.environ['DB_PATH']
 OUT_PATH = os.environ['OUT_PATH']
@@ -23,6 +23,7 @@ This package contains GPL-licensed content for the eo-lookup tool
 taken from `Reta Vortaro <http://www.reta-vortaro.de/revo/>`_.
 
 .. code-block:: python
+
    >>> import eo_lookup_revo
    >>> eo_lookup_revo.get_content()
 
@@ -35,6 +36,7 @@ SETUP_OPTS = {
     'long_description': README_RST,
     'url': 'https://github.com/open-esperanto/eo-lookup-revo',
     'author': 'Open Esperanto',
+    'author_email': 'admin@libraro.net',
     'classifiers': [
         'Development Status :: 4 - Beta',
         'Intended Audience :: Developers',

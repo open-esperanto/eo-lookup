@@ -17,9 +17,9 @@ rec {
     sha256 = "0lx9mbjyabmhz3ymqg2y998n4n7ssjryflv3qm1s2rlz51zmcahv";
   };
 
-  pythonSrc = pkgs.stdenv.mkDerivation rec {
-    name = "python-src";
-    script = ./generate.py;
+  eoLookupRevoSrc = pkgs.stdenv.mkDerivation rec {
+    name = "eo-lookup-revo-src";
+    script = ./eo-lookup-revo/generate.py;
     inherit python3 revoDist revoLicense;
     builder = builtins.toFile "builder.sh" ''
       source $stdenv/setup
@@ -31,16 +31,18 @@ rec {
     '';
   };
 
-  pythonDist = pkgs.stdenv.mkDerivation rec {
+  pythonDist = src : pkgs.stdenv.mkDerivation rec {
     name = "python-dist";
-    inherit python3 pythonSrc;
+    inherit src python3;
     builder = builtins.toFile "builder.sh" ''
       source $stdenv/setup
-      cp -R --no-preserve=mode,ownership $pythonSrc/* .
+      cp -R --no-preserve=mode,ownership $src/* .
       export SOURCE_DATE_EPOCH=315532800
       $python3/bin/python setup.py sdist bdist_wheel
       mkdir $out
       cp dist/* $out
     '';
   };
+
+  eoLookupRevoDist = pythonDist eoLookupRevoSrc;
 }

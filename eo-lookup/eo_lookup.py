@@ -257,6 +257,9 @@ SUFFIXES = {
     "id": "descendant, young one; e. g. bov' ox ― bov'id' calf"
 }
 
+# Not found in Fundamento
+PREFIXES['sen'] = 'without'
+
 
 def list_parse_trees(forest):
     if type(forest) is list:

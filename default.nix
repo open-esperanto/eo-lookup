@@ -17,17 +17,39 @@ rec {
     sha256 = "0lx9mbjyabmhz3ymqg2y998n4n7ssjryflv3qm1s2rlz51zmcahv";
   };
 
+  pyLicenseMit = "License :: OSI Approved :: MIT License";
+
   eoLookupRevoSrc = pkgs.stdenv.mkDerivation rec {
     name = "eo-lookup-revo-src";
-    script = ./eo-lookup-revo/generate.py;
+    src = ./.;
+    generate = ./scripts/generate.py;
     inherit python3 revoDist revoLicense;
     builder = builtins.toFile "builder.sh" ''
       source $stdenv/setup
       mkdir $out
       export DB_PATH=$revoDist/revo.db
-      export OUT_PATH=$out
-      $python3/bin/python $script
+      $python3/bin/python $generate > $out/eo_lookup_revo.json
+      cp $src/eo-lookup-revo/eo_lookup_revo.py $out
+      cp $src/eo-lookup-revo/README.rst $out
+      cp $src/eo-lookup-revo/setup.py $out
+      cp $src/eo-lookup-revo/setup.cfg $out
       cp $revoLicense $out/LICENSE.txt
+    '';
+  };
+
+  eoLookupSrc = pkgs.stdenv.mkDerivation rec {
+    name = "eo-lookup-src";
+    src = ./.;
+    generate = ./scripts/generate.py;
+    inherit python3 revoDist revoLicense;
+    builder = builtins.toFile "builder.sh" ''
+      source $stdenv/setup
+      mkdir $out
+      cp $src/eo-lookup/eo_lookup.py $out
+      cp $src/eo-lookup/setup.py $out
+      cp $src/eo-lookup/setup.cfg $out
+      cp $src/README.rst $out
+      cp $src/LICENSE $out/LICENSE.txt
     '';
   };
 
@@ -44,5 +66,7 @@ rec {
     '';
   };
 
+  eoLookupDist = pythonDist eoLookupSrc;
   eoLookupRevoDist = pythonDist eoLookupRevoSrc;
+
 }
